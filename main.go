@@ -43,13 +43,13 @@ func main() {
 	}
 
 	var sanitized []string
-	for _, pfx := range prefixes {
-		if strings.Contains(pfx, "/") {
-			sanitized = append(sanitized, pfx)
+	for _, prefix := range prefixes {
+		if strings.Contains(prefix, "/") {
+			sanitized = append(sanitized, prefix)
 			continue
 		}
-		if net.ParseIP(pfx) != nil {
-			sanitized = append(sanitized, fmt.Sprintf("%s/%d", pfx, *hostPrefix))
+		if net.ParseIP(prefix).To4() != nil {
+			sanitized = append(sanitized, fmt.Sprintf("%s/%d", prefix, *hostPrefix))
 			continue
 		}
 	}
