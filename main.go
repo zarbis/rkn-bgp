@@ -45,13 +45,12 @@ func main() {
 	var sanitized []string
 	for _, prefix := range prefixes {
 		if strings.Contains(prefix, "/") {
-			sanitized = append(sanitized, prefix)
 			continue
 		}
-		if net.ParseIP(prefix).To4() != nil {
-			sanitized = append(sanitized, fmt.Sprintf("%s/%d", prefix, *hostPrefix))
+		if net.ParseIP(prefix).To4() == nil {
 			continue
 		}
+		sanitized = append(sanitized, fmt.Sprintf("%s/%d", prefix, *hostPrefix))
 	}
 
 	merged, err := cidrman.MergeCIDRs(sanitized)
